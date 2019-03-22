@@ -1,0 +1,53 @@
+<div class="content">
+  <br/>
+    <mat-table [dataSource]="searchResult">
+      <ng-container matColumnDef="item">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-form-field class="search">
+            <input #searchVal style="text-align: center" (keyup)="initializeSearch(searchVal.value)" type="text" matInput placeholder="Search..."/>
+          </mat-form-field>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="font-size: small;text-align: left;">
+
+
+          <mat-card style="margin: 1px; width: 100%;">
+            <mat-card-title style="font-size: small; font-weight: bold;">
+              {{element.title != null ? element.title : element.story_title}}
+            </mat-card-title>
+            <mat-card-content style="font-size: small; text-align: left;">
+              <div>
+                <section>
+                  <label style="font-size: small; text-align: center;">
+                    {{element.points}} points
+                  </label>&nbsp;&nbsp;
+                  <label style="font-size: small; text-align: center;">
+                    {{element.author}}&nbsp;&nbsp;
+                  </label>
+                  <label style="font-size: small; text-align: center;">
+                    {{element.num_comments}} comments&nbsp;
+                  </label>
+                  <a href="{{element.url}}" target="_blank" style="font-size: small; text-align: center; color: blue;">
+                    {{element.url != null && element.url.length > 100 ? element.url.substring(0, 100) + '...' : element.url}}
+                  </a>
+                </section>
+
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row style="background-color: rgba(188,212,251,0.47);" *matHeaderRowDef="columns"></mat-header-row>
+      <mat-row  *matRowDef="let row; columns: columns; let index = index"></mat-row>
+
+    </mat-table>
+    <br/>
+    <div *ngIf="maxPages != 0" style="width: 100%; background-color: white;padding-top: 10px; padding-bottom: 10px;">
+      <button mat-raised-button color="primary" disabled="{{page === 0}}"
+              style="width: 20%;margin-right: 100px;" (click)="previousPage()">Previous</button>
+      <label>Page {{page + 1}} of {{maxPages}}</label>
+      <button mat-raised-button color="primary" disabled="{{page === maxPages - 1}}"
+              style="width: 20%;margin-left: 100px;" (click)="nextPage()">Next</button>
+    </div>
+    <br/><br/>
+</div>
