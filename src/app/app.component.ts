@@ -35,8 +35,12 @@ export class AppComponent implements OnInit
 
   searchItem()
   {
-    this.searchService.findSearchData(this.itemToSearch, this.page, 10).subscribe(data =>
+    this.searchService.findSearchData(this.itemToSearch, this.page, 8).subscribe(data =>
     {
+      // I think there is a problem in page numbers returned from API.
+      // it returns a different number every time we call it (with same search item)
+      // for example if we search 'total ti', it sometimes return 5 page and sometimes return 6 pages
+      // So the result number of pages is not stable.
       this.maxPages = data.nbPages;
       this.searchResult = data.hits;
     });
@@ -56,5 +60,7 @@ export class AppComponent implements OnInit
       this.page++;
       this.searchItem();
     }
+    if(this.page > this.maxPages)
+      this.page = this.maxPages - 1;
   }
 }
